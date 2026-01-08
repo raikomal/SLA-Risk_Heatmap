@@ -180,7 +180,7 @@ class SlaRiskHeatmapPage:
             )
         )
         generate_btn.click()
-        self.pause(4, "Waiting for chart generation")
+        self.pause(3, "Waiting for chart generation")
 
         # ---------------- CHART ASSERT ----------------
         chart = self.wait.until(
@@ -188,16 +188,8 @@ class SlaRiskHeatmapPage:
                 (By.XPATH, "//div[contains(@id,'highcharts')]//*[name()='svg']")
             )
         )
-        self.pause(2, "Chart rendered")
+        self.pause(1, "Chart rendered")
         self.hover_highchart_data()
-
-        # # ---------------- INTERACT WITH CHART ----------------
-        # for i in range(3):
-        #     self.driver.execute_script(
-        #         "arguments[0].dispatchEvent(new MouseEvent('click',{bubbles:true}));",
-        #         chart
-        #     )
-        #     self.pause(1, f"Chart click {i + 1}")
 
         print("✅ Operational Insights fully automated (VISIBLE + REAL)")
 
@@ -216,6 +208,37 @@ class SlaRiskHeatmapPage:
             print(f"⏸ Hover {idx}: {label}")
             actions.move_to_element(path).perform()
             time.sleep(1.5)
+
+        # ---------------- SLA & RISK IMPACT – FACILITY QUERY ----------------
+        impact_section = self.wait.until(
+            EC.presence_of_element_located(
+                (By.XPATH, "(//section[contains(@class,'flex-col gap-4')])[2]")
+            )
+        )
+
+        facility_query_dropdown = self.wait.until(
+            EC.element_to_be_clickable((
+                By.XPATH,
+                "(//section[contains(@class,'flex-col gap-4')])[2]"
+                "//select[contains(@class,'p-3') and contains(@class,'text-xl')]"
+            ))
+        )
+
+        # --- Select LON2 ---
+        Select(facility_query_dropdown).select_by_visible_text("LON2 (London)")
+        self.pause(1, "Selected LON2 (London)")
+
+        # --- Select CHI5 ---
+        Select(facility_query_dropdown).select_by_visible_text(
+            "CHI5 (Chicago Aurora (Lombard))"
+        )
+        self.pause(1, "Selected CHI5 (Chicago Aurora)")
+
+        # --- Select CIN5 ---
+        Select(facility_query_dropdown).select_by_visible_text(
+            "CIN5 (Cincinnati North (Lebanon))"
+        )
+        self.pause(1, "Selected CIN5 (Cincinnati North)")
 
     # =========================
     # MASTER FLOW

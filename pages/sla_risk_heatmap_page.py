@@ -189,16 +189,33 @@ class SlaRiskHeatmapPage:
             )
         )
         self.pause(2, "Chart rendered")
+        self.hover_highchart_data()
 
-        # ---------------- INTERACT WITH CHART ----------------
-        for i in range(3):
-            self.driver.execute_script(
-                "arguments[0].dispatchEvent(new MouseEvent('click',{bubbles:true}));",
-                chart
-            )
-            self.pause(1, f"Chart click {i + 1}")
+        # # ---------------- INTERACT WITH CHART ----------------
+        # for i in range(3):
+        #     self.driver.execute_script(
+        #         "arguments[0].dispatchEvent(new MouseEvent('click',{bubbles:true}));",
+        #         chart
+        #     )
+        #     self.pause(1, f"Chart click {i + 1}")
 
         print("✅ Operational Insights fully automated (VISIBLE + REAL)")
+
+    def hover_highchart_data(self):
+        paths = self.wait.until(
+            EC.presence_of_all_elements_located(
+                (By.XPATH,
+                 "//div[contains(@id,'highcharts')]//*[name()='path' and @aria-label]")
+            )
+        )
+
+        actions = ActionChains(self.driver)
+
+        for idx, path in enumerate(paths[:5], start=1):
+            label = path.get_attribute("aria-label")
+            print(f"⏸ Hover {idx}: {label}")
+            actions.move_to_element(path).perform()
+            time.sleep(1.5)
 
     # =========================
     # MASTER FLOW

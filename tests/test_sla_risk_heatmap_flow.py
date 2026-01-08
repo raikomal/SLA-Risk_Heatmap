@@ -7,7 +7,8 @@ from pages.sla_risk_heatmap_page import SlaRiskHeatmapPage
 @pytest.mark.e2e
 def test_sla_risk_heatmap_full_flow(driver):
     """
-    Login → Part Allocation → SLA & Risk Heatmap → Scroll + Icons
+    Login → Part Allocation → SLA & Risk Heatmap
+    Scroll all containers → Click icons
     """
 
     # ---------- LOGIN ----------

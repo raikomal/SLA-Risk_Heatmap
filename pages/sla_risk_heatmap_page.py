@@ -12,6 +12,23 @@ class SlaRiskHeatmapPage:
         self.wait = WebDriverWait(driver, 25)
 
     # =========================
+    # FORCE SECTION VISIBILITY
+    # =========================
+    def scroll_section_into_view(self, section_text):
+        section = self.wait.until(
+            EC.presence_of_element_located(
+                (By.XPATH, f"//section[.//h1[contains(text(),'{section_text}')]]")
+            )
+        )
+
+        self.driver.execute_script(
+            "arguments[0].scrollIntoView({behavior:'smooth', block:'center'});",
+            section
+        )
+        time.sleep(2)
+
+
+    # =========================
     # GENERIC CONTAINER SCROLL
     # =========================
     def scroll_container(self, container):
@@ -94,28 +111,21 @@ class SlaRiskHeatmapPage:
 
         time.sleep(1)
 
+
     # =========================
-    # MASTER FLOW
+    # MASTER FLOW (SAFE)
     # =========================
     def validate_full_page(self):
-        # -------- 1. KPI (already visible) --------
+        # -------- 1. KPI --------
         self.scroll_kpi_section()
 
-        # -------- 2. SLA & Risk (already visible) --------
+        # -------- 2. SLA & Risk --------
         self.scroll_sla_section()
         self.click_section_icon("SLA & Risk")
 
-        # -------- 3. MAIN PAGE SCROLL (CRITICAL) --------
-        self.driver.execute_script("window.scrollBy(0, document.body.scrollHeight)")
-        time.sleep(2)
+        # -------- 3. FORCE BOTTLENECK VISIBILITY (SAFE) --------
+        self.scroll_section_into_view("Bottleneck")
 
-        # -------- 4. WAIT FOR BOTTLENECK SECTION TO RENDER --------
-        self.wait.until(
-            EC.visibility_of_element_located(
-                (By.XPATH, "//section[.//h1[contains(text(),'Bottleneck')]]")
-            )
-        )
-
-        # -------- 5. NOW SCROLL BOTTLENECK CONTAINER --------
+        # -------- 4. NOW SAFE TO INTERACT --------
         self.scroll_bottleneck_section()
         self.click_section_icon("Bottleneck")

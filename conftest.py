@@ -2,11 +2,14 @@ import pytest
 from selenium import webdriver
 from selenium.webdriver.chrome.service import Service
 from webdriver_manager.chrome import ChromeDriverManager
-
+from utils.ui_report_writer import write_fail_report
 
 BASE_URL = "http://103.204.95.212:8084"
 
 
+# =========================
+# DRIVER FIXTURE
+# =========================
 @pytest.fixture
 def driver():
     options = webdriver.ChromeOptions()
@@ -22,3 +25,18 @@ def driver():
     yield driver
 
     driver.quit()
+
+
+# =========================
+# AUTO FAIL REPORT HOOK
+# =========================
+@pytest.hookimpl(hookwrapper=True)
+def pytest_runtest_makereport(item, call):
+    outcome = yield
+    rep = outcome.get_result()
+
+    if rep.when == "call" and rep.failed:
+        write_fail_report(
+            title=f"Test Failed: {item.name}",
+            error_message=str(rep.longrepr)
+        )

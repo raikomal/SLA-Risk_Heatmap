@@ -3,6 +3,9 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait, Select
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.action_chains import ActionChains
+from utils.ui_report_writer import write_test_report
+
+
 
 
 class SlaRiskHeatmapPage:
@@ -21,24 +24,35 @@ class SlaRiskHeatmapPage:
     # -------------------------------------------------
     def set_date_input(self, label_text, value):
         input_box = self.wait.until(
-            EC.presence_of_element_located((
+            EC.element_to_be_clickable((
                 By.XPATH,
                 f"//label[contains(text(),'{label_text}')]/following::input[1]"
             ))
         )
 
+        # Scroll into view
         self.driver.execute_script(
             "arguments[0].scrollIntoView({block:'center'});", input_box
         )
+        time.sleep(0.3)
 
+        # Clear properly
+        self.driver.execute_script("arguments[0].value = '';", input_box)
+
+        # Set value + FORCE React state update
         self.driver.execute_script("""
-            arguments[0].value = '';
             arguments[0].value = arguments[1];
             arguments[0].dispatchEvent(new Event('input', { bubbles: true }));
             arguments[0].dispatchEvent(new Event('change', { bubbles: true }));
+            arguments[0].dispatchEvent(new Event('blur', { bubbles: true }));
         """, input_box, value)
 
-        time.sleep(0.5)
+        # Optional: press Enter (extra safety)
+        input_box.send_keys("\n")
+
+        time.sleep(0.8)
+        actual_value = input_box.get_attribute("value")
+        assert actual_value == value, f"❌ Date not committed. Expected {value}, got {actual_value}"
 
     # =========================
     # SCROLL HELPERS

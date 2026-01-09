@@ -1,0 +1,9 @@
+Project,Application,Micro_Application,Title,Description,Steps,Expected_Result,Actual_Result,Status,Remark,Task_ID,Ticket_ID
+Tower Track,Web,Login,Valid Login,Login with valid credentials,Enter username and password,User should login successfully,User logged in,Pass,,LG-01,
+Tower Track,Web,Navigation,Navigate to SLA & Risk Heatmap,Open SLA & Risk Heatmap page,Click SLA & Risk Heatmap card,Page should open,Page opened,Pass,,NAV-01,
+Tower Track,Web,SLA & Risk Heatmap,Strategic Overview - KPI,Verify KPI section visibility,Scroll KPI section,KPI section should be visible,KPI section visible,Pass,,TT-SLA-001,
+Tower Track,Web,SLA & Risk Heatmap,Strategic Overview - SLA & Risk,Verify SLA & Risk section interaction,Click SLA & Risk icon,Section should expand,Section expanded,Pass,,TT-SLA-002,
+Tower Track,Web,SLA & Risk Heatmap,Strategic Overview - Bottleneck,Verify Bottleneck section interaction,Scroll and click Bottleneck icon,Bottleneck section should expand,Bottleneck section expanded,Pass,,TT-SLA-003,
+Tower Track,Web,SLA & Risk Heatmap,Operational Insights Tab,Switch to Operational Insights,Click Operational Insights slider,Operational Insights should load,Operational Insights loaded,Pass,,TT-OPS-001,
+Tower Track,Web,Operational Insights,Generate Operational Insights Report,"Verify KPI, Facility, Date & chart",Select KPI → Facility → Dates → Generate → Hover chart,Chart & SLA impact rendered,Chart & SLA impact rendered,Pass,,TT-OPS-002,
+Tower Track,Web,Operational Insights,End-to-End Validation,Complete SLA & Risk Heatmap validation,Execute full UI workflow,All steps should pass,All steps passed,Pass,,TT-E2E-001,

@@ -1,0 +1,12 @@
+Tower Track,Web,Auto Failure,Test Failed: test_sla_risk_heatmap_full_flow,Test execution,Test should pass,Test failed,Fail,"driver = <selenium.webdriver.chrome.webdriver.WebDriver (session=""6ba50c2b199f3871d70fb502d733c108"")>
+
+    @pytest.mark.e2e
+    def test_sla_risk_heatmap_full_flow(driver):
+    
+        # =====================================================
+        # START NEW CSV REPORT
+        # =====================================================
+>       start_new_report(""SLA_Risk_Heatmap_UI"")
+E       TypeError: start_new_report() takes 0 positional arguments but 1 was given
+
+tests\test_sla_risk_heatmap_flo",AUTO-FAIL,,

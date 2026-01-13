@@ -1,24 +1,20 @@
 import pytest
 from selenium import webdriver
-from selenium.webdriver.chrome.service import Service
-from webdriver_manager.chrome import ChromeDriverManager
 from utils.ui_report_writer import write_fail_report
 
 BASE_URL = "http://103.204.95.212:8084"
 
 
 # =========================
-# DRIVER FIXTURE
+# DRIVER FIXTURE (FIXED)
 # =========================
 @pytest.fixture
 def driver():
     options = webdriver.ChromeOptions()
     options.add_argument("--start-maximized")
 
-    driver = webdriver.Chrome(
-        service=Service(ChromeDriverManager().install()),
-        options=options
-    )
+    # ✅ Selenium Manager auto-handles ChromeDriver
+    driver = webdriver.Chrome(options=options)
 
     driver.get(BASE_URL)
 
